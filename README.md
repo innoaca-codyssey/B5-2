@@ -20,3 +20,22 @@ Python 3.14.7
 ```
 
 macOS arm64에서 실행했습니다.
+
+## 그래프 탐색과 정렬 검증
+
+```bash
+$ python3 -m unittest discover -s tests -v
+test_duplicate_missing_parent_and_long_chain (testgraph.GraphTests.test_duplicate_missing_parent_and_long_chain) ... ok
+test_parents_before_children_and_all_ancestors (testgraph.GraphTests.test_parents_before_children_and_all_ancestors) ... ok
+test_shortest_lexical_paths_and_disconnected (testgraph.GraphTests.test_shortest_lexical_paths_and_disconnected) ... ok
+test_stable_merge_sort (testgraph.GraphTests.test_stable_merge_sort) ... ok
+test_branch_merge_index_and_unique_hashes (testgraph.RepositoryTests.test_branch_merge_index_and_unique_hashes) ... ok
+test_cli_errors_case_and_spaces (testgraph.RepositoryTests.test_cli_errors_case_and_spaces) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.008s
+
+OK
+```
+
+두 경로의 길이가 같을 때 전체 hash 경로의 사전순을 비교했습니다. 3,000개 커밋의 조상 탐색, 여러 부모의 선후 관계, 역색인 중복 제거, 안정 정렬과 잘못된 CLI 입력을 검사했습니다.
