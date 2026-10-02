@@ -1,5 +1,6 @@
 import shlex
 from repository import Repository
+from diffing import diff_files
 
 
 def format_nodes(nodes):
@@ -13,6 +14,8 @@ def execute(repository, line):
         if not args:
             return ''
         command = args[0].upper()
+        if command == 'DIFF':
+            return diff_files(args[1],args[2]) if len(args)==3 else 'Invalid args'
         if command == 'INIT' and len(args) == 2:
             repository.init(args[1])
             return f'Initialized repository.\nCurrent branch: main\nCurrent user: {args[1]}'
@@ -47,7 +50,7 @@ def execute(repository, line):
         if command in ('INIT', 'BRANCH', 'SWITCH', 'COMMIT', 'LOG', 'PATH', 'ANCESTORS', 'SEARCH', 'MERGE'):
             return 'Invalid args'
         return 'Unknown command: ' + args[0]
-    except ValueError as error:
+    except (ValueError, OSError, UnicodeError) as error:
         return str(error)
 
 

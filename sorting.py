@@ -17,3 +17,16 @@ def merge_sort(values, key=lambda value: value):
     result.extend(left[a:])
     result.extend(right[b:])
     return result
+
+
+def insertion_sort(values, key=lambda value: value):
+    """같은 키를 이동하지 않는 안정 삽입 정렬."""
+    result=list(values)
+    for i in range(1,len(result)):
+        current=result[i]
+        j=i-1
+        while j>=0 and key(result[j])>key(current):
+            result[j+1]=result[j]
+            j-=1
+        result[j+1]=current
+    return result

@@ -126,3 +126,25 @@ SEARCH는 공백으로 나눈 소문자 토큰의 역색인과 author 역색인�
 커밋이 10배 늘어나면 전체 LOG 출력, 조상 목록의 출력, PATH에서 이웃을 정렬하는 비용이 커집니다. 변경할 때 정렬된 인접 목록을 유지하거나, 로그에 범위를 주고, 역색인을 필요 시 디스크로 분리할 수 있습니다. 난수 hash로 바꾸면 충돌 여부를 확인하고 재생성해야 하며 테스트에서는 생성기를 주입해 재현성을 유지해야 합니다.
 
 알고리즘은 graph.py와 sorting.py, 인덱스 갱신은 repository.py, 입력과 출력은 main.py에 분리했습니다. docstring은 사이클 방지, 위상 순서, BFS 동률 처리처럼 코드 선택의 이유가 필요한 부분에 작성했습니다.
+
+## 줄 비교와 두 정렬 검사
+
+```bash
+$ python3 -m unittest discover -s tests -v
+test_diff_common_added_deleted_and_repeated (testbonus.BonusTests.test_diff_common_added_deleted_and_repeated) ... ok
+test_diff_empty_files_unicode_and_missing (testbonus.BonusTests.test_diff_empty_files_unicode_and_missing) ... ok
+test_two_sorts_equal_stable_and_input_unchanged (testbonus.BonusTests.test_two_sorts_equal_stable_and_input_unchanged) ... ok
+test_duplicate_missing_parent_and_long_chain (testgraph.GraphTests.test_duplicate_missing_parent_and_long_chain) ... ok
+test_parents_before_children_and_all_ancestors (testgraph.GraphTests.test_parents_before_children_and_all_ancestors) ... ok
+test_shortest_lexical_paths_and_disconnected (testgraph.GraphTests.test_shortest_lexical_paths_and_disconnected) ... ok
+test_stable_merge_sort (testgraph.GraphTests.test_stable_merge_sort) ... ok
+test_branch_merge_index_and_unique_hashes (testgraph.RepositoryTests.test_branch_merge_index_and_unique_hashes) ... ok
+test_cli_errors_case_and_spaces (testgraph.RepositoryTests.test_cli_errors_case_and_spaces) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.016s
+
+OK
+```
+
+Diff의 추가/삭제/공통 줄을 합쳐 원본 양쪽을 복원하고 중복 줄과 빈 파일, 한글, 없는 경로를 검사했습니다. 병합/삽입 정렬은 같은 키의 순서를 유지하며 입력을 변경하지 않습니다.
